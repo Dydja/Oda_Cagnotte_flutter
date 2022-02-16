@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_deb/layouts/navigation_drive.dart';
 import 'package:animator/animator.dart';
+import 'package:flutter_deb/load/animate.dart';
 
 /*void main() {
   runApp(MyApp());
@@ -16,6 +17,10 @@ Future main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent)
+  );
+
   runApp(MyApp());
 }
 
@@ -28,9 +33,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context)=>MaterialApp(
     debugShowCheckedModeBanner:false,
     title:title, //le titre
-
     theme : ThemeData(primarySwatch: Colors.deepOrange), //la couleur du theme
-      home:Home(), //la classe
+    initialRoute: '/',
+    routes: { //lorsqu'on navigue sur la premiere page c'est le slash
+    '/': (context) => const Animated(title: "loading"),
+    '/menu': (context) => const Home(title: 'ODA CAGNOTTE',),//second page je definis le nom de la route
+  },
+
+      //home:Home(), //la classe
   );
 
 
@@ -239,7 +249,7 @@ class Page2 extends StatelessWidget {
 
 
 class Home extends StatefulWidget {
-  const Home({Key?key}) : super(key: key);
+  const Home({Key?key, required String title}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -251,18 +261,18 @@ class _HomeState extends State<Home> {
     drawer: NavigationDrawerWidget(), //le nom de la classe du drawer
     appBar: AppBar(title: Text(MyApp.title),//le titre de l'application
     ),
-    body: Animated(
+    /*body: Animated(
       //child: Text(
        // 'Welcome',
      // ),
-    ),
+    ),*/
     //body: Builder(builder: (BuildContext context) {  },) ,
 
   );
 }
 
-class Animated extends StatelessWidget {
-  const Animated({Key?key}) : super(key: key);
+/*class Animated extends StatelessWidget {
+  const Animated({Key?key, required String title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -271,6 +281,9 @@ class Animated extends StatelessWidget {
       cycles: 0,
       //la duree
       duration: Duration(seconds: 1),
+      //navigateAfterSeconds: new Home(title:' ODA CAGNOTTE')
+        // Within the `FirstScreen` widget
+
       builder: (context,animatorState, child) =>Center(
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 10),
@@ -281,4 +294,4 @@ class Animated extends StatelessWidget {
       ),
     );
   }
-}
+}*/
